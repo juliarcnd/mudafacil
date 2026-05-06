@@ -1,0 +1,12 @@
+# Agent/Claude internals
+.agents/
+.claude/
+skills-lock.json
+
+# Root-level design-system (duplicado, o real fica em mudafacil/)
+design-system/
+
+# Root node_modules (framer-motion do agente)
+node_modules/
+package.json
+package-lock.json
