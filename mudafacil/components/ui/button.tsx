@@ -52,8 +52,13 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         aria-busy={loading || undefined}
         {...props}
       >
-        {loading && <Loader2 className="h-4 w-4 animate-spin" aria-hidden />}
-        {children}
+        {/* Quando asChild=true, Slot usa React.Children.only — não podemos renderizar nós extras */}
+        {asChild ? children : (
+          <>
+            {loading && <Loader2 className="h-4 w-4 animate-spin" aria-hidden />}
+            {children}
+          </>
+        )}
       </Comp>
     )
   }
