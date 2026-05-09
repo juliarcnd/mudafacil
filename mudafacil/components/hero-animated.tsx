@@ -9,24 +9,19 @@ import {
 } from "framer-motion"
 import Link from "next/link"
 import { ArrowRight } from "lucide-react"
-import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 
 // ─── Constantes ───────────────────────────────────────────────────────────────
 
-const ROAD_H        = 28    // % da viewport que o asfalto ocupa
-const TRUCK_BOTTOM  = 24    // % da viewport onde fica a base do caminhão
-const TRUCK_W       = 380   // largura renderizada do caminhão (px)
-const TRUCK_SPEED   = 0.024 // % de tela por frame (mais devagar)
-// Física: a 1920px, 0.024% = 0.46px/frame de deslocamento.
-// Circunferência da roda (r=16): 2π×16 ≈ 100.5px
-// Rotação por frame = (0.46 / 100.5) × 360 ≈ 1.65°
-const WHEEL_DEG     = 1.65  // graus/frame — sincronizado com a velocidade de solo
+const ROAD_H        = 28
+const TRUCK_BOTTOM  = 24
+const TRUCK_W       = 380
+const TRUCK_SPEED   = 0.024
+const WHEEL_DEG     = 1.65  // sincronizado com velocidade de solo
 
-// ─── Skyline (bem sutil — marca d'água) ───────────────────────────────────────
+// ─── Skyline — prédios no horizonte ──────────────────────────────────────────
 
 function CitySkyline() {
-  // pares [x, altura]
   const b = [
     [0,52],[28,70],[46,46],[68,82],[82,60],[100,42],[136,76],[148,98],
     [154,64],[170,48],[202,66],[214,86],[236,56],[252,40],[282,72],
@@ -48,17 +43,17 @@ function CitySkyline() {
       fill="none"
     >
       <defs>
-        {/* Janelas — pontilhado muito suave */}
+        {/* Janelas — luzes quentes nos prédios */}
         <pattern id="wins" width="14" height="18" patternUnits="userSpaceOnUse">
-          <rect x="2"  y="2"  width="4" height="6" rx="0.5" fill="#FDBA74" opacity="0.3" />
-          <rect x="8"  y="2"  width="4" height="6" rx="0.5" fill="#A78BFA" opacity="0.22" />
-          <rect x="2"  y="10" width="4" height="6" rx="0.5" fill="#A78BFA" opacity="0.16" />
+          <rect x="2"  y="2"  width="4" height="6" rx="0.5" fill="#FDBA74" opacity="0.35" />
+          <rect x="8"  y="2"  width="4" height="6" rx="0.5" fill="#E85A2A" opacity="0.22" />
+          <rect x="2"  y="10" width="4" height="6" rx="0.5" fill="#E85A2A" opacity="0.16" />
           <rect x="8"  y="10" width="4" height="6" rx="0.5" fill="#FDBA74" opacity="0.14" />
         </pattern>
         {/* Degrade que apaga a base dos prédios */}
         <linearGradient id="bFade" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0%" stopColor="transparent" />
-          <stop offset="100%" stopColor="#1e0a4a" stopOpacity="0.95" />
+          <stop offset="100%" stopColor="#160805" stopOpacity="0.95" />
         </linearGradient>
       </defs>
 
@@ -68,14 +63,14 @@ function CitySkyline() {
           <g key={i}>
             <rect
               x={x} y={110 - h} width={w} height={h}
-              fill="#4c1d95"
+              fill="#3D1510"
               opacity={0.08 + (i % 3) * 0.025}
             />
             <rect
               x={x + 1} y={110 - h + 5} width={w - 2} height={h - 6}
               fill="url(#wins)"
             />
-            <rect x={x} y={110 - h} width={w} height={1.5} fill="#6D28D9" opacity={0.06} />
+            <rect x={x} y={110 - h} width={w} height={1.5} fill="#BF3A1C" opacity="0.06" />
           </g>
         )
       })}
@@ -86,15 +81,15 @@ function CitySkyline() {
   )
 }
 
-// ─── Caminhão SVG (redesenhado) ───────────────────────────────────────────────
+// ─── Caminhão SVG — identidade Trekon ────────────────────────────────────────
 
 function TruckSVG({
   wheelAngle,
 }: {
   wheelAngle: ReturnType<typeof useMotionValue<number>>
 }) {
-  const WCX = [58, 184, 298] // centros X das rodas
-  const WCY = 95              // centro Y das rodas
+  const WCX = [58, 184, 298]
+  const WCY = 95
 
   return (
     <svg
@@ -104,71 +99,61 @@ function TruckSVG({
       className="w-full h-full"
     >
       {/* Sombra no asfalto */}
-      <ellipse cx="183" cy="111" rx="164" ry="5" fill="black" opacity="0.20" />
+      <ellipse cx="183" cy="111" rx="164" ry="5" fill="black" opacity="0.22" />
 
       {/* ══════════════════════════════════════
-          BAÚ / CARROCERIA
+          BAÚ / CARROCERIA — carvão Trekon
           ══════════════════════════════════════ */}
 
-      {/* Corpo externo */}
-      <rect x="2" y="10" width="228" height="78" rx="6" fill="#4C1D95" />
-      {/* Faixa do topo */}
-      <rect x="2" y="10" width="228" height="7" rx="6" fill="#7C3AED" />
+      {/* Corpo externo — carvão escuro */}
+      <rect x="2" y="10" width="228" height="78" rx="6" fill="#1A1410" />
+      {/* Faixa Trekon Red no topo */}
+      <rect x="2" y="10" width="228" height="7" rx="6" fill="#BF3A1C" />
       {/* Faixa cromada inferior */}
-      <rect x="2" y="83" width="228" height="4" rx="2" fill="#6D28D9" opacity="0.7" />
-      <rect x="16" y="85" width="200" height="5" rx="2.5" fill="#5B21B6" opacity="0.75" />
+      <rect x="2"  y="83" width="228" height="4" rx="2" fill="#3A2820" opacity="0.8" />
+      <rect x="16" y="85" width="200" height="5" rx="2.5" fill="#2A1C16" opacity="0.85" />
 
       {/* ── Janela de carga (interior visível) ── */}
-      <rect x="10" y="18" width="212" height="62" rx="3" fill="#100620" opacity="0.75" />
+      <rect x="10" y="18" width="212" height="62" rx="3" fill="#0A0302" opacity="0.80" />
 
       {/* ── SOFÁ (esquerda) ── */}
-      {/* Estrutura da encosta */}
       <rect x="13" y="37" width="50" height="22" rx="3" fill="#7C2D12" opacity="0.85" />
-      {/* Assento */}
-      <rect x="15" y="57" width="46" height="21" rx="2" fill="#92400E" opacity="0.9" />
-      {/* Almofadas */}
+      <rect x="15" y="57" width="46" height="21" rx="2" fill="#92400E" opacity="0.9"  />
       <rect x="16" y="58" width="20" height="18" rx="2" fill="#A16207" opacity="0.65" />
       <rect x="38" y="58" width="20" height="18" rx="2" fill="#A16207" opacity="0.65" />
-      {/* Braços */}
       <rect x="11" y="37" width="8"  height="41" rx="2" fill="#6B2110" opacity="0.88" />
       <rect x="61" y="37" width="8"  height="41" rx="2" fill="#6B2110" opacity="0.88" />
-      {/* Pés */}
       <rect x="17" y="75" width="5" height="5" rx="1" fill="#451a03" opacity="0.75" />
       <rect x="54" y="75" width="5" height="5" rx="1" fill="#451a03" opacity="0.75" />
 
       {/* ── PILHA DE CAIXAS A (centro-esquerda) ── */}
-      {/* Grande (base) */}
       <rect x="74" y="52" width="36" height="26" rx="1" fill="#A16207" opacity="0.85" />
-      <line x1="74" y1="65" x2="110" y2="65" stroke="#FDBA74" strokeWidth="1"   opacity="0.48" />
-      <line x1="92" y1="52" x2="92"  y2="78" stroke="#854D0E" strokeWidth="0.8" opacity="0.35" />
-      {/* Média */}
+      <line x1="74"  y1="65" x2="110" y2="65"  stroke="#FDBA74" strokeWidth="1"   opacity="0.48" />
+      <line x1="92"  y1="52" x2="92"  y2="78"  stroke="#854D0E" strokeWidth="0.8" opacity="0.35" />
       <rect x="74" y="32" width="36" height="20" rx="1" fill="#92400E" opacity="0.80" />
-      <line x1="74" y1="42" x2="110" y2="42" stroke="#FDBA74" strokeWidth="1"   opacity="0.42" />
-      {/* Etiqueta frágil */}
+      <line x1="74"  y1="42" x2="110" y2="42"  stroke="#FDBA74" strokeWidth="1"   opacity="0.42" />
       <rect x="78" y="34" width="14" height="6" rx="1" fill="#FDBA74" opacity="0.18" />
-      {/* Pequena (topo) */}
       <rect x="79" y="20" width="24" height="12" rx="1" fill="#78350F" opacity="0.76" />
-      <line x1="79" y1="26" x2="103" y2="26" stroke="#FDBA74" strokeWidth="0.8" opacity="0.36" />
+      <line x1="79"  y1="26" x2="103" y2="26"  stroke="#FDBA74" strokeWidth="0.8" opacity="0.36" />
 
       {/* ── PILHA DE CAIXAS B (centro) ── */}
       <rect x="116" y="54" width="30" height="24" rx="1" fill="#854D0E" opacity="0.82" />
-      <line x1="116" y1="66" x2="146" y2="66" stroke="#FDBA74" strokeWidth="1"   opacity="0.44" />
-      <line x1="131" y1="54" x2="131" y2="78" stroke="#78350F" strokeWidth="0.8" opacity="0.3"  />
+      <line x1="116" y1="66" x2="146" y2="66"  stroke="#FDBA74" strokeWidth="1"   opacity="0.44" />
+      <line x1="131" y1="54" x2="131" y2="78"  stroke="#78350F" strokeWidth="0.8" opacity="0.30" />
       <rect x="116" y="33" width="30" height="21" rx="1" fill="#92400E" opacity="0.78" />
-      <line x1="116" y1="43" x2="146" y2="43" stroke="#FDBA74" strokeWidth="1"   opacity="0.40" />
+      <line x1="116" y1="43" x2="146" y2="43"  stroke="#FDBA74" strokeWidth="1"   opacity="0.40" />
       <rect x="118" y="20" width="26" height="13" rx="1" fill="#7C2D12" opacity="0.72" />
 
-      {/* ── ITEM EMBALADO — manta protetora (centro-direita) ── */}
-      <rect x="152" y="25" width="40" height="53" rx="3" fill="#5B21B6" opacity="0.55" />
-      {/* Pregas da manta */}
-      <line x1="152" y1="34" x2="192" y2="34" stroke="#7C3AED" strokeWidth="1" opacity="0.45" />
-      <line x1="152" y1="43" x2="192" y2="43" stroke="#7C3AED" strokeWidth="1" opacity="0.45" />
-      <line x1="152" y1="52" x2="192" y2="52" stroke="#7C3AED" strokeWidth="1" opacity="0.45" />
-      <line x1="152" y1="61" x2="192" y2="61" stroke="#7C3AED" strokeWidth="1" opacity="0.45" />
-      <line x1="152" y1="70" x2="192" y2="70" stroke="#7C3AED" strokeWidth="1" opacity="0.45" />
-      {/* Faixas de fixação (âmbar) */}
-      <rect x="159" y="25" width="6" height="53" rx="1" fill="#FDBA74" opacity="0.28" />
-      <rect x="178" y="25" width="6" height="53" rx="1" fill="#FDBA74" opacity="0.28" />
+      {/* ── ITEM EMBALADO — manta protetora (azul industrial) ── */}
+      <rect x="152" y="25" width="40" height="53" rx="3" fill="#1C3A5C" opacity="0.60" />
+      <line x1="152" y1="34" x2="192" y2="34" stroke="#2D5A8C" strokeWidth="1" opacity="0.45" />
+      <line x1="152" y1="43" x2="192" y2="43" stroke="#2D5A8C" strokeWidth="1" opacity="0.45" />
+      <line x1="152" y1="52" x2="192" y2="52" stroke="#2D5A8C" strokeWidth="1" opacity="0.45" />
+      <line x1="152" y1="61" x2="192" y2="61" stroke="#2D5A8C" strokeWidth="1" opacity="0.45" />
+      <line x1="152" y1="70" x2="192" y2="70" stroke="#2D5A8C" strokeWidth="1" opacity="0.45" />
+      {/* Faixas de fixação âmbar */}
+      <rect x="159" y="25" width="6" height="53" rx="1" fill="#FDBA74" opacity="0.30" />
+      <rect x="178" y="25" width="6" height="53" rx="1" fill="#FDBA74" opacity="0.30" />
 
       {/* ── PILHA DE CAIXAS C (direita) ── */}
       <rect x="198" y="56" width="22" height="22" rx="1" fill="#78350F" opacity="0.80" />
@@ -177,73 +162,70 @@ function TruckSVG({
       <rect x="199" y="20" width="20" height="15" rx="1" fill="#7C2D12" opacity="0.70" />
       <line x1="199" y1="27" x2="219" y2="27" stroke="#FDBA74" strokeWidth="0.8" opacity="0.32" />
 
-      {/* Divisórias internas do baú (sobre os itens) */}
-      <line x1="72"  y1="18" x2="72"  y2="80" stroke="#6D28D9" strokeWidth="1" opacity="0.32" />
-      <line x1="114" y1="18" x2="114" y2="80" stroke="#6D28D9" strokeWidth="1" opacity="0.32" />
-      <line x1="150" y1="18" x2="150" y2="80" stroke="#6D28D9" strokeWidth="1" opacity="0.32" />
-      <line x1="196" y1="18" x2="196" y2="80" stroke="#6D28D9" strokeWidth="1" opacity="0.32" />
+      {/* Divisórias internas do baú */}
+      <line x1="72"  y1="18" x2="72"  y2="80" stroke="#BF3A1C" strokeWidth="1" opacity="0.25" />
+      <line x1="114" y1="18" x2="114" y2="80" stroke="#BF3A1C" strokeWidth="1" opacity="0.25" />
+      <line x1="150" y1="18" x2="150" y2="80" stroke="#BF3A1C" strokeWidth="1" opacity="0.25" />
+      <line x1="196" y1="18" x2="196" y2="80" stroke="#BF3A1C" strokeWidth="1" opacity="0.25" />
 
-      {/* Moldura do baú (por cima do interior) */}
-      <rect x="2"  y="10"  width="4"   height="78" rx="2" fill="#6D28D9" opacity="0.55" />
-      <rect x="226" y="10" width="4"   height="78" rx="2" fill="#6D28D9" opacity="0.55" />
-      <rect x="2"  y="10"  width="228" height="7"  rx="6" fill="#7C3AED" opacity="0.45" />
+      {/* Moldura do baú */}
+      <rect x="2"   y="10" width="4"   height="78" rx="2" fill="#BF3A1C" opacity="0.45" />
+      <rect x="226" y="10" width="4"   height="78" rx="2" fill="#BF3A1C" opacity="0.45" />
+      <rect x="2"   y="10" width="228" height="7"  rx="6" fill="#BF3A1C" opacity="0.40" />
 
       {/* Escapamento */}
-      <rect x="220" y="4" width="10" height="18" rx="3" fill="#3B0764" />
-      <ellipse cx="225" cy="3.5" rx="5" ry="2.5" fill="#5B21B6" opacity="0.7" />
-      <circle cx="225" cy="0"   r="3.5"           fill="#6D28D9" opacity="0.18" />
-      <circle cx="227" cy="-4"  r="2.5"           fill="#6D28D9" opacity="0.11" />
+      <rect x="220" y="4" width="10" height="18" rx="3" fill="#1A1410" />
+      <ellipse cx="225" cy="3.5" rx="5" ry="2.5" fill="#3A2820" opacity="0.8" />
+      <circle cx="225" cy="0"  r="3.5" fill="#3A2820" opacity="0.20" />
+      <circle cx="227" cy="-4" r="2.5" fill="#3A2820" opacity="0.12" />
 
       {/* ══════════════════════════════════════
-          CABINE
+          CABINE — Trekon Red
           ══════════════════════════════════════ */}
-      <path d="M232 15 L296 15 L328 57 L328 88 L232 88 Z" fill="#5B21B6" />
-      <path d="M232 15 L296 15 L312 35 L232 35 Z" fill="#7C3AED" opacity="0.48" />
+      <path d="M232 15 L296 15 L328 57 L328 88 L232 88 Z" fill="#BF3A1C" />
+      <path d="M232 15 L296 15 L312 35 L232 35 Z" fill="#E85A2A" opacity="0.40" />
       {/* Faixa lateral decorativa */}
-      <line x1="232" y1="72" x2="328" y2="72" stroke="#FDBA74" strokeWidth="2" opacity="0.18" />
+      <line x1="232" y1="72" x2="328" y2="72" stroke="#FDBA74" strokeWidth="2" opacity="0.20" />
 
       {/* Para-brisa */}
-      <path d="M239 19 L292 19 L310 39 L239 39 Z" fill="#A78BFA" opacity="0.16" />
+      <path d="M239 19 L292 19 L310 39 L239 39 Z" fill="#E8906A" opacity="0.14" />
       <path d="M239 19 L292 19 L310 39 L239 39 Z" fill="white"   opacity="0.06" />
-      {/* Reflexo */}
       <path d="M243 21 L262 21 L272 33 L243 33 Z" fill="white"   opacity="0.05" />
 
       {/* Porta */}
-      <rect x="238" y="44" width="56" height="40" rx="3" fill="#4C1D95" opacity="0.38" />
-      <rect x="284" y="60" width="8"  height="5"  rx="2" fill="white"   opacity="0.20" />
+      <rect x="238" y="44" width="56" height="40" rx="3" fill="#9B2D13" opacity="0.40" />
+      <rect x="284" y="60" width="8"  height="5"  rx="2" fill="white"   opacity="0.22" />
 
       {/* Retrovisor */}
-      <rect x="320" y="30" width="17" height="11" rx="2.5" fill="#3B0764" />
-      <rect x="321" y="31" width="15" height="9"  rx="2"   fill="#6D28D9" opacity="0.30" />
-      <line x1="328" y1="41" x2="328" y2="48" stroke="#3B0764" strokeWidth="2.5" />
+      <rect x="320" y="30" width="17" height="11" rx="2.5" fill="#1A1410" />
+      <rect x="321" y="31" width="15" height="9"  rx="2"   fill="#3A2820" opacity="0.40" />
+      <line x1="328" y1="41" x2="328" y2="48" stroke="#1A1410" strokeWidth="2.5" />
 
-      {/* ── FAROL ── */}
+      {/* Farol */}
       <rect x="322" y="50" width="16" height="26" rx="5" fill="#FDBA74" />
       <rect x="323" y="51" width="14" height="24" rx="4" fill="#FEF3C7" opacity="0.65" />
       <rect x="324" y="52" width="11" height="10" rx="2" fill="white"   opacity="0.55" />
-      <circle cx="330" cy="69" r="3.5"            fill="#FDE68A"         opacity="0.52" />
+      <circle cx="330" cy="69" r="3.5" fill="#FDE68A" opacity="0.52" />
 
       {/* Para-choque */}
-      <rect x="318" y="78" width="26" height="9" rx="3.5" fill="#2E1065" />
-      <rect x="319" y="79" width="24" height="7" rx="2.5" fill="#5B21B6" opacity="0.45" />
-      <rect x="332" y="81" width="10" height="3" rx="1.5" fill="#3B0764" />
+      <rect x="318" y="78" width="26" height="9" rx="3.5" fill="#1A1410" />
+      <rect x="319" y="79" width="24" height="7" rx="2.5" fill="#3A2820" opacity="0.50" />
+      <rect x="332" y="81" width="10" height="3" rx="1.5" fill="#0A0302" />
 
       {/* ══════════════════════════════════════
-          RODAS (com rotação animada)
+          RODAS
           ══════════════════════════════════════ */}
       {WCX.map((cx) => (
         <g key={cx}>
-          {/* Pneu — estático */}
           <circle cx={cx} cy={WCY} r={16} fill="#111827" />
-          {/* Disco + raios — rotaciona */}
           <motion.g
             style={{
               rotate: wheelAngle,
               transformOrigin: `${cx}px ${WCY}px`,
             }}
           >
-            <circle cx={cx} cy={WCY} r={11} fill="#2D1564" />
-            <circle cx={cx} cy={WCY} r={6.5} fill="#4C1D95" opacity={0.88} />
+            <circle cx={cx} cy={WCY} r={11} fill="#2A2220" />
+            <circle cx={cx} cy={WCY} r={6.5} fill="#3A2820" opacity={0.90} />
             {[0, 60, 120, 180, 240, 300].map((deg) => {
               const rad = (deg * Math.PI) / 180
               return (
@@ -253,16 +235,15 @@ function TruckSVG({
                   y1={WCY + Math.sin(rad) * 11}
                   x2={cx - Math.cos(rad) * 11}
                   y2={WCY - Math.sin(rad) * 11}
-                  stroke="#7C3AED"
+                  stroke="#BF3A1C"
                   strokeWidth={1.8}
-                  opacity={0.72}
+                  opacity={0.75}
                 />
               )
             })}
             <circle cx={cx} cy={WCY} r={2.5} fill="white" opacity={0.22} />
           </motion.g>
-          {/* Aro externo — estático */}
-          <circle cx={cx} cy={WCY} r={11} fill="none" stroke="#6D28D9" strokeWidth={1} opacity={0.48} />
+          <circle cx={cx} cy={WCY} r={11} fill="none" stroke="#E85A2A" strokeWidth={1} opacity={0.40} />
         </g>
       ))}
 
@@ -280,14 +261,9 @@ export function HeroAnimated() {
   const wheelAngle    = useMotionValue(0)
 
   useAnimationFrame(() => {
-    // Caminhão — loop -12 → 110
     const cur = truckXPercent.get()
     truckXPercent.set(cur > 110 ? -12 : cur + TRUCK_SPEED)
-
-    // Faixas da pista — mesma velocidade de solo das rodas (0.46px/frame)
     roadDashX.set((roadDashX.get() - 0.46) % 120)
-
-    // Rodas
     wheelAngle.set(wheelAngle.get() + WHEEL_DEG)
   })
 
@@ -299,16 +275,12 @@ export function HeroAnimated() {
       className="relative w-full flex flex-col overflow-hidden"
       style={{ height: "calc(100vh - 4rem)" }}
     >
-      {/* ══════════════════════════════════════════════════════
-          FUNDO — cobre todo o hero (absolute inset-0)
-          ══════════════════════════════════════════════════════ */}
-
-      {/* Céu */}
+      {/* Céu — gradiente carvão quente Trekon */}
       <div
         className="absolute inset-0 z-0"
         style={{
           background:
-            "linear-gradient(to bottom, #0d041e 0%, #1a0838 28%, #2e0e62 55%, #3b1278 78%, #2a0d5e 100%)",
+            "linear-gradient(to bottom, #0A0302 0%, #160805 28%, #2E1008 55%, #4A1A0E 78%, #3D1510 100%)",
         }}
       />
 
@@ -332,27 +304,20 @@ export function HeroAnimated() {
         ))}
       </svg>
 
-      {/* Glows de ambiente */}
+      {/* Glows de ambiente — vermelho Trekon */}
       <div className="absolute inset-0 pointer-events-none z-[2]">
         <div className="absolute left-[8%]  top-[8%]  w-[28%] h-[28%] rounded-full blur-[130px]"
-             style={{ background: "rgba(124,58,237,0.2)" }} />
+             style={{ background: "rgba(191,58,28,0.18)" }} />
         <div className="absolute right-[12%] top-[12%] w-[20%] h-[22%] rounded-full blur-[100px]"
              style={{ background: "rgba(253,186,116,0.08)" }} />
         <div className="absolute left-[42%] top-[5%]  w-[18%] h-[16%] rounded-full blur-[90px]"
-             style={{ background: "rgba(167,139,250,0.1)" }} />
+             style={{ background: "rgba(232,90,42,0.10)" }} />
       </div>
 
-      {/* ══════════════════════════════════════════════════════
-          ZONA DE CONTEÚDO — flex:1, cresce para ocupar todo
-          o espaço acima da zona de cena.
-          Centrado verticalmente, com respiro do header no topo.
-          ══════════════════════════════════════════════════════ */}
+      {/* ── Zona de conteúdo ── */}
       <div
         className="relative z-20 flex-1 flex flex-col items-center justify-center text-center px-6"
-        style={{
-          paddingTop:    "clamp(2rem, 5vh, 4rem)",
-          paddingBottom: "1.5rem",
-        }}
+        style={{ paddingTop: "clamp(2rem, 5vh, 4rem)", paddingBottom: "1.5rem" }}
       >
         <div className="max-w-5xl mx-auto flex flex-col items-center space-y-6 w-full">
           <span
@@ -361,7 +326,7 @@ export function HeroAnimated() {
               padding: "0.35rem 1rem",
               borderRadius: "9999px",
               border: "1px solid rgba(255,255,255,0.14)",
-              background: "rgba(13,4,30,0.45)",
+              background: "rgba(10,3,2,0.50)",
               backdropFilter: "blur(8px)",
               WebkitBackdropFilter: "blur(8px)",
               color: "rgba(255,255,255,0.55)",
@@ -374,7 +339,7 @@ export function HeroAnimated() {
 
           <h1
             className="text-5xl md:text-[4.5rem] font-extrabold tracking-tight leading-[1.06]"
-            style={{ color: "white", textShadow: "0 2px 28px rgba(124,58,237,0.45)" }}
+            style={{ color: "white", textShadow: "0 2px 28px rgba(191,58,28,0.45)" }}
           >
             Tudo no lugar.{" "}
             <br className="hidden md:block" />
@@ -417,36 +382,23 @@ export function HeroAnimated() {
               <Link href="/pricing">Ver planos</Link>
             </Button>
           </div>
-
         </div>
       </div>
 
-      {/* ══════════════════════════════════════════════════════
-          ZONA DE CENA — altura fixa, ancorada no bottom.
-          flex-shrink-0 impede que encolha.
-          overflow-hidden garante que NADA escapa para cima
-          e invade a zona de conteúdo.
-
-          Proporções internas (% do height desta zona):
-            Asfalto  → 67 % (bottom)
-            Skyline  → senta sobre o asfalto (bottom: 67%)
-            Caminhão → bottom: 57 % (rodas sobre a faixa)
-          ══════════════════════════════════════════════════════ */}
+      {/* ── Zona de cena ── */}
       <div
         className="relative flex-shrink-0 w-full overflow-hidden"
         style={{ height: "42%" }}
       >
-        {/* Brilho quente no horizonte — muito sutil para não criar banda visível */}
         <div
           className="absolute top-0 left-0 right-0 pointer-events-none"
           style={{
             height: "60px",
-            background:
-              "linear-gradient(to bottom, rgba(59,18,120,0.0) 0%, rgba(59,18,120,0.0) 100%)",
+            background: "linear-gradient(to bottom, rgba(61,21,16,0.0) 0%, rgba(61,21,16,0.0) 100%)",
           }}
         />
 
-        {/* Skyline — logo acima do asfalto */}
+        {/* Skyline */}
         <div
           className="absolute left-0 right-0 pointer-events-none"
           style={{ bottom: "67%", height: "130px" }}
@@ -454,24 +406,22 @@ export function HeroAnimated() {
           <CitySkyline />
         </div>
 
-        {/* ── Asfalto — 67 % da zona de cena ── */}
+        {/* Asfalto */}
         <div
           className="absolute left-0 right-0 bottom-0 overflow-hidden"
           style={{ height: "67%" }}
         >
-          {/* Fundo */}
           <div
             className="absolute inset-0"
-            style={{ background: "linear-gradient(to bottom, #13092a 0%, #090412 100%)" }}
+            style={{ background: "linear-gradient(to bottom, #120806 0%, #080402 100%)" }}
           />
-          {/* Borda superior */}
           <div
             className="absolute top-0 left-0 right-0 h-px"
-            style={{ background: "linear-gradient(to right, transparent, rgba(124,58,237,0.5), transparent)" }}
+            style={{ background: "linear-gradient(to right, transparent, rgba(191,58,28,0.5), transparent)" }}
           />
           <div
             className="absolute top-0 left-0 right-0"
-            style={{ height: "28px", background: "linear-gradient(to bottom, rgba(124,58,237,0.10), transparent)" }}
+            style={{ height: "28px", background: "linear-gradient(to bottom, rgba(191,58,28,0.10), transparent)" }}
           />
           {/* Faixas tracejadas */}
           <motion.div
@@ -498,7 +448,6 @@ export function HeroAnimated() {
               />
             ))}
           </motion.div>
-          {/* Meio-fio âmbar */}
           <div
             className="absolute left-0 right-0"
             style={{
@@ -509,7 +458,7 @@ export function HeroAnimated() {
           />
         </div>
 
-        {/* Glow dinâmico sob o caminhão */}
+        {/* Glow sob o caminhão */}
         <motion.div
           className="absolute pointer-events-none"
           style={{
@@ -517,20 +466,15 @@ export function HeroAnimated() {
             bottom: "57%",
             width: "300px",
             height: "70px",
-            background:
-              "radial-gradient(ellipse at 50% 0%, rgba(124,58,237,0.26) 0%, transparent 70%)",
+            background: "radial-gradient(ellipse at 50% 0%, rgba(191,58,28,0.28) 0%, transparent 70%)",
             transform: "translateX(-50%) translateY(58%)",
           }}
         />
 
-        {/* ── Caminhão ── */}
+        {/* Caminhão */}
         <motion.div
           className="absolute"
-          style={{
-            left: truckLeft,
-            bottom: "57%",
-            width: `${TRUCK_W}px`,
-          }}
+          style={{ left: truckLeft, bottom: "57%", width: `${TRUCK_W}px` }}
         >
           {/* Feixe do farol */}
           <div
@@ -552,7 +496,7 @@ export function HeroAnimated() {
               left: "8%",
               right: "8%",
               height: "18px",
-              background: "rgba(124,58,237,0.20)",
+              background: "rgba(191,58,28,0.22)",
               filter: "blur(14px)",
               borderRadius: "50%",
             }}
@@ -560,7 +504,6 @@ export function HeroAnimated() {
           <TruckSVG wheelAngle={wheelAngle} />
         </motion.div>
       </div>
-
     </div>
   )
 }

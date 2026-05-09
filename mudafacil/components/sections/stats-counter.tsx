@@ -79,7 +79,7 @@ function StatCard({
       className="flex flex-col items-center justify-center text-center"
       style={{
         padding: "2.75rem 2rem",
-        borderRight: last ? "none" : "1px solid #EDE8E3",
+        borderRight: last ? "none" : "1px solid #F0E0D8",
         minHeight: "220px",
       }}
       initial={{ opacity: 0, y: 18 }}
@@ -95,7 +95,7 @@ function StatCard({
           fontWeight: 700,
           letterSpacing: "-0.03em",
           lineHeight: 1,
-          color: "#7C3AED",
+          color: "#BF3A1C",
           marginBottom: "0.55rem",
           fontVariantNumeric: "tabular-nums",
         }}
@@ -138,7 +138,7 @@ export function StatsCounter() {
   const inView = useInView(ref, { once: true, margin: "-80px" })
 
   return (
-    <section ref={ref} className="px-4 py-20" style={{ background: "#F8F1F6" }}>
+    <section ref={ref} className="px-4 py-20" style={{ background: "#FAF0EC" }}>
       <div className="max-w-4xl mx-auto flex flex-col items-center gap-12">
 
         {/* Headline */}
@@ -155,7 +155,7 @@ export function StatsCounter() {
               fontWeight: 700,
               letterSpacing: "0.18em",
               textTransform: "uppercase",
-              color: "#7C3AED",
+              color: "#BF3A1C",
               opacity: 0.65,
               marginBottom: "0.85rem",
             }}
@@ -172,7 +172,7 @@ export function StatsCounter() {
             }}
           >
             Uma mudança que começa{" "}
-            <span style={{ color: "#7C3AED" }}>
+            <span style={{ color: "#BF3A1C" }}>
               antes do caminhão chegar
             </span>
           </h2>
@@ -182,11 +182,11 @@ export function StatsCounter() {
         <motion.div
           className="w-full grid grid-cols-1 md:grid-cols-3"
           style={{
-            border: "1px solid #E5DDD8",
+            border: "1px solid #E8D5CE",
             borderRadius: "1.125rem",
             background: "white",
             overflow: "hidden",
-            boxShadow: "0 2px 16px rgba(124,58,237,0.06), 0 1px 3px rgba(0,0,0,0.04)",
+            boxShadow: "0 2px 16px rgba(191,58,28,0.06), 0 1px 3px rgba(0,0,0,0.04)",
           }}
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}

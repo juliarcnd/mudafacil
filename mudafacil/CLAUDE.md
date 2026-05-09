@@ -44,7 +44,9 @@
 | `Cotacao` | Cotação de uma transportadora para uma mudança |
 | `Transportadora` | Empresa de mudança com nota e cidade |
 
-## Cores (design tokens)
-- Primária: `#C4B5FD` (violeta — confiança)
-- Fundo: `#FFFBF7` (branco quente)
-- Acento: `#FDBA74` (âmbar — remete a caminhão)
+## Cores (design tokens) — Identidade Trekon
+- Primária: `#BF3A1C` (Trekon Red — container, cabine, CTAs)
+- Acento: `#E85A2A` (laranja-vermelho — hover e destaques)
+- Fundo: `#FAFAF8` (branco quente neutro)
+- Foreground: `#1A1410` (carvão quente — logotipo Trekon)
+- Âmbar: `#FDBA74` (farol, detalhes do caminhão)

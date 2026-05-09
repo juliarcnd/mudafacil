@@ -2,44 +2,44 @@
 
 /* TOKENS:START */
   :root {
-    --background: #FFFBF7;
-    --foreground: #1C1917;
+    --background: #FAFAF8;
+    --foreground: #1A1410;
     --card: #FFFFFF;
-    --card-foreground: #1C1917;
+    --card-foreground: #1A1410;
     --popover: #FFFFFF;
-    --popover-foreground: #1C1917;
-    --primary: #7C3AED;
+    --popover-foreground: #1A1410;
+    --primary: #BF3A1C;
     --primary-foreground: #FFFFFF;
-    --secondary: #EDE9FE;
-    --secondary-foreground: #4C1D95;
-    --muted: #F5EFE7;
+    --secondary: #FCEAE4;
+    --secondary-foreground: #7A1E0B;
+    --muted: #F5EDE8;
     --muted-foreground: #78716C;
-    --accent: #FDBA74;
-    --accent-foreground: #7C2D12;
-    --destructive: #EF4444;
+    --accent: #E85A2A;
+    --accent-foreground: #FFFFFF;
+    --destructive: #B91C1C;
     --destructive-foreground: #FFFFFF;
-    --border: #E7DDD4;
-    --input: #E7DDD4;
-    --ring: #7C3AED;
-    --sidebar-background: #F3F0FF;
-    --sidebar-foreground: #1C1917;
-    --sidebar-primary: #7C3AED;
+    --border: #E8D5CE;
+    --input: #E8D5CE;
+    --ring: #BF3A1C;
+    --sidebar-background: #FEF0EC;
+    --sidebar-foreground: #1A1410;
+    --sidebar-primary: #BF3A1C;
     --sidebar-primary-foreground: #FFFFFF;
-    --sidebar-accent: #FDBA74;
-    --sidebar-accent-foreground: #7C2D12;
-    --sidebar-border: #DDD5F0;
-    --sidebar-ring: #7C3AED;
-    --landing-hero-darkest: #0d041e;
-    --landing-hero-dark: #1a0838;
-    --landing-hero-mid: #2e0e62;
-    --landing-hero-light: #3b1278;
-    --landing-hero-horizon: #2a0d5e;
-    --landing-section-dark: #080318;
-    --landing-section-soft-pink: #F8F1F6;
-    --landing-card-border: #E5DDD8;
-    --landing-card-divider: #EDE8E3;
-    --landing-violet-soft: #A78BFA;
-    --landing-violet-lighter: #C4B5FD;
+    --sidebar-accent: #E85A2A;
+    --sidebar-accent-foreground: #FFFFFF;
+    --sidebar-border: #F0D8D0;
+    --sidebar-ring: #BF3A1C;
+    --landing-hero-darkest: #0A0302;
+    --landing-hero-dark: #160805;
+    --landing-hero-mid: #2E1008;
+    --landing-hero-light: #4A1A0E;
+    --landing-hero-horizon: #3D1510;
+    --landing-section-dark: #0A0302;
+    --landing-section-soft-pink: #FAF0EC;
+    --landing-card-border: #E8D5CE;
+    --landing-card-divider: #F0E0D8;
+    --landing-accent-soft: #E8906A;
+    --landing-accent-lighter: #F0C0A8;
   }
 /* TOKENS:END */
 

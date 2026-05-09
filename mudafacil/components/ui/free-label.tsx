@@ -23,7 +23,7 @@ export function FreeLabel() {
       <motion.span
         className="text-sm"
         style={{ letterSpacing: "0.01em" }}
-        animate={{ color: ["#78716C", "#7C3AED", "#78716C"] }}
+        animate={{ color: ["#78716C", "#BF3A1C", "#78716C"] }}
         transition={{
           duration: 3,
           delay: 1.3,

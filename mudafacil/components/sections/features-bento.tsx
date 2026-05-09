@@ -50,13 +50,13 @@ export function FeaturesBento() {
   return (
     <section
       className="relative overflow-hidden"
-      style={{ background: "#080318" }}
+      style={{ background: "#0A0302" }}
     >
       {/* Transição suave do hero escuro */}
       <div
         className="absolute top-0 left-0 right-0 h-28 pointer-events-none"
         style={{
-          background: "linear-gradient(to bottom, #2a0d5e 0%, #080318 100%)",
+          background: "linear-gradient(to bottom, #3D1510 0%, #0A0302 100%)",
         }}
       />
 
@@ -67,7 +67,7 @@ export function FeaturesBento() {
           style={{
             top: "10%", left: "5%",
             width: "35%", height: "40%",
-            background: "rgba(124,58,237,0.12)",
+            background: "rgba(191,58,28,0.12)",
           }}
         />
         <div
@@ -123,7 +123,7 @@ export function FeaturesBento() {
               className="relative rounded-2xl p-7 flex flex-col gap-5 group cursor-default"
               style={{
                 background: "rgba(255,255,255,0.03)",
-                border: "1px solid rgba(124,58,237,0.18)",
+                border: "1px solid rgba(191,58,28,0.18)",
               }}
               initial="hidden"
               whileInView="visible"
@@ -138,7 +138,7 @@ export function FeaturesBento() {
                 className="absolute -top-5 right-4 font-extrabold select-none pointer-events-none leading-none"
                 style={{
                   fontSize: "6.5rem",
-                  color: "rgba(124,58,237,0.07)",
+                  color: "rgba(191,58,28,0.07)",
                   letterSpacing: "-0.05em",
                 }}
               >
@@ -174,7 +174,7 @@ export function FeaturesBento() {
               {/* Divisor */}
               <div
                 className="h-px"
-                style={{ background: "rgba(124,58,237,0.2)" }}
+                style={{ background: "rgba(191,58,28,0.2)" }}
               />
 
               {/* Solução */}
@@ -198,7 +198,7 @@ export function FeaturesBento() {
                 className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-400 pointer-events-none"
                 style={{
                   boxShadow:
-                    "inset 0 0 0 1px rgba(124,58,237,0.35), 0 8px 48px rgba(124,58,237,0.07)",
+                    "inset 0 0 0 1px rgba(191,58,28,0.35), 0 8px 48px rgba(191,58,28,0.07)",
                 }}
               />
             </motion.div>

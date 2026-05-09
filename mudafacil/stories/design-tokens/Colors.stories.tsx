@@ -162,8 +162,8 @@ const LANDING_ENTRIES = [
   { key: "Section Soft Pink", value: tokens.landing.sectionSoftPink, description: "Fundo da seção StatsCounter", cssVar: "--landing-section-soft-pink" },
   { key: "Card Border", value: tokens.landing.cardBorder, description: "Borda do card de stats", cssVar: "--landing-card-border" },
   { key: "Card Divider", value: tokens.landing.cardDivider, description: "Divisória interna dos cards de stats", cssVar: "--landing-card-divider" },
-  { key: "Violet Soft", value: tokens.landing.violetSoft, description: "Violeta médio — ícones e acentos", cssVar: "--landing-violet-soft" },
-  { key: "Violet Lighter", value: tokens.landing.violetLighter, description: "Violeta claro — glows e bordas sutis", cssVar: "--landing-violet-lighter" },
+  { key: "Violet Soft", value: tokens.landing.accentSoft, description: "Violeta médio — ícones e acentos", cssVar: "--landing-violet-soft" },
+  { key: "Violet Lighter", value: tokens.landing.accentLighter, description: "Violeta claro — glows e bordas sutis", cssVar: "--landing-violet-lighter" },
 ]
 
 const SIDEBAR_ENTRIES = Object.entries(tokens.sidebar).map(([key, value]) => ({
@@ -226,7 +226,7 @@ function ColorSystem() {
         <div
           className="h-16 rounded-xl mb-2"
           style={{
-            background: `linear-gradient(to right, ${tokens.landing.heroDarkest}, ${tokens.landing.heroDark}, ${tokens.landing.heroMid}, ${tokens.landing.heroLight}, ${tokens.landing.heroHorizon})`,
+            background: `linear-gradient(to right, ${tokens.landing.heroDarkest}, ${tokens.landing.heroDark}, ${tokens.landing.heroMid}, ${tokens.landing.heroLight}, ${tokens.landing.heroHorizon}, ${tokens.colors.primary})`,
           }}
         />
 
